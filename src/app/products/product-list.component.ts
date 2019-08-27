@@ -52,7 +52,7 @@ export class ProductListComponent implements OnInit {
       releaseDate: 'May 15, 2019',
       description: '9" Cats Paw',
       price: 14.99,
-      starRating: 4.1,
+      starRating: 3.1,
       imageUrl: 'N/A 2.0'
     }
   ];

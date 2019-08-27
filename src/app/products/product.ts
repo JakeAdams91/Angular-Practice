@@ -1,3 +1,4 @@
+// product list interface
 export interface IProduct {
   productId: number;
   message: string;
