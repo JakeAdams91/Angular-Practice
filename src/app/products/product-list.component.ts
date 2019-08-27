@@ -8,6 +8,11 @@ import { ProductService } from './product.service';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
+
+  constructor(private productService: ProductService) {
+    this.listFilter = '';
+  }
+  // Class Data
   pageTitle = 'Product List';
   // tslint:disable-next-line: no-inferrable-types
   showImage: boolean = false;
@@ -24,9 +29,7 @@ export class ProductListComponent implements OnInit {
   filteredProducts: IProduct[];
   products: IProduct[] = [];
 
-  constructor(private productService: ProductService) {
-    this.listFilter = '';
-  }
+  // Class Functions
   onRatingClicked(message: string): void {
     this.pageTitle = 'Product List: ' + message;
   }
