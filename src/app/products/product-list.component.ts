@@ -11,7 +11,16 @@ export class ProductListComponent implements OnInit {
   // tslint:disable-next-line: no-inferrable-types
   showImage: boolean = false;
   // tslint:disable-next-line: no-inferrable-types
-  listFilter: string = 'cart';
+  filterString: string = 'cart';
+
+  get listFilter(): string {
+    return this.filterString;
+  }
+  set listFilter(value: string) {
+    this.filterString = value;
+    this.filteredProducts = this.listFilter ? this.performFilter(this.listFilter) : this.products;
+  }
+  filteredProducts: IProduct[];
   products: IProduct[] = [
     {
       productId: 2,
@@ -47,6 +56,16 @@ export class ProductListComponent implements OnInit {
       imageUrl: 'N/A 2.0'
     }
   ];
+
+  constructor() {
+    this.filteredProducts = this.products;
+    this.listFilter = 'cart';
+  }
+  performFilter(filterBy: string): IProduct[] {
+    filterBy = filterBy.toLocaleLowerCase();
+    return this.products.filter((product: IProduct) =>
+      product.productName.toLocaleLowerCase().indexOf(filterBy) !== -1);
+  }
   toggleImage(): void {
     this.showImage = !this.showImage;
   }
