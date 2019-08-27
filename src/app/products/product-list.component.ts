@@ -1,16 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { IProduct } from './product';
 
 @Component({
   selector: 'app-products',
-  templateUrl: './product-list.component.html'
+  templateUrl: './product-list.component.html',
+  styleUrls: ['./product-list.component.css']
 })
-export class ProductListComponent {
+export class ProductListComponent implements OnInit {
   pageTitle = 'Product List';
   // tslint:disable-next-line: no-inferrable-types
   showImage: boolean = false;
   // tslint:disable-next-line: no-inferrable-types
   listFilter: string = 'cart';
-  products: any[] = [
+  products: IProduct[] = [
     {
       productId: 2,
       message: 'Hello',
@@ -47,5 +49,8 @@ export class ProductListComponent {
   ];
   toggleImage(): void {
     this.showImage = !this.showImage;
+  }
+  ngOnInit(): void {
+    console.log('in OnInit');
   }
 }
