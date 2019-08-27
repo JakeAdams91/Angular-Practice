@@ -9,9 +9,8 @@ import { ProductService } from './product.service';
 })
 export class ProductListComponent implements OnInit {
 
-  constructor(private productService: ProductService) {
-    this.listFilter = '';
-  }
+
+  errorMessage: string;
   // Class Data
   pageTitle = 'Product List';
   // tslint:disable-next-line: no-inferrable-types
@@ -26,10 +25,13 @@ export class ProductListComponent implements OnInit {
     this.filterString = value;
     this.filteredProducts = this.listFilter ? this.performFilter(this.listFilter) : this.products;
   }
-  filteredProducts: IProduct[];
+  filteredProducts: IProduct[] = [];
   products: IProduct[] = [];
-
   // Class Functions
+  constructor(private productService: ProductService) {
+    this.listFilter = '';
+  }
+
   onRatingClicked(message: string): void {
     this.pageTitle = 'Product List: ' + message;
   }
@@ -43,7 +45,14 @@ export class ProductListComponent implements OnInit {
   }
   // on init, load this data (useful for pulling in data from Service / or DB)
   ngOnInit(): void {
-    this.products = this.productService.getProducts();
-    this.filteredProducts = this.products;
+    this.productService.getProducts().subscribe({
+      next: products => {
+        this.products = products;
+        console.log(this.products);
+        this.filteredProducts = this.products;
+        console.log(this.filteredProducts);
+       },
+      error: err => { this.errorMessage = err; }
+    });
   }
 }
