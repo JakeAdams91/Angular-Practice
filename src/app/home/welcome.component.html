@@ -1,1 +1,6 @@
-<p>welcome-page works!</p>
+<div class="card" (mousemove)="trackMouse($event)">
+  <div id="progress" class="progress">
+      <!-- class="progress-bar bg-success" -->
+    <div [className]="updateColor()" role="progressbar" [style.width.%]="width" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+  </div>
+</div>
