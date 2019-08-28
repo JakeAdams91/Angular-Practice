@@ -26,14 +26,16 @@ export class WelcomeComponent implements OnInit {
 
   updateColor(): string {
     let progBarClasses: string;
-    if (this.width <= 25) {
-      progBarClasses = 'progress-bar bg-success';
+    if (this.width <= 10) {
+      progBarClasses = 'progress-bar bg-danger';
+     } else if (this.width > 10 && this.width <= 25) {
+       progBarClasses = 'progress-bar bg-warning';
     } else if (this.width > 25 && this.width <= 50) {
       progBarClasses = 'progress-bar bg-info';
     } else if (this.width > 50 && this.width <= 75) {
-      progBarClasses = 'progress-bar bg-warning';
+      progBarClasses = 'progress-bar bg-info';
     } else {
-      progBarClasses = 'progress-bar bg-danger';
+      progBarClasses = 'progress-bar bg-success';
     }
     return progBarClasses;
   }
