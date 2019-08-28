@@ -35,7 +35,7 @@ export class WelcomeComponent implements OnInit {
     } else {
       progBarClasses = 'progress-bar bg-danger';
     }
-    return progBarClasses
+    return progBarClasses;
   }
 
   ngOnInit() {
