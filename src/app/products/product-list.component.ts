@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IProduct } from './product';
+import { ProductService } from './product.service';
 
 @Component({
   selector: 'app-products',
@@ -7,50 +8,51 @@ import { IProduct } from './product';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
+
+
+  errorMessage: string;
+  // Class Data
   pageTitle = 'Product List';
   // tslint:disable-next-line: no-inferrable-types
   showImage: boolean = false;
   // tslint:disable-next-line: no-inferrable-types
-  listFilter: string = 'cart';
-  products: IProduct[] = [
-    {
-      productId: 2,
-      message: 'Hello',
-      productName: 'Garden Cart',
-      productCode: 'GDN-0023',
-      releaseDate: 'March 18, 2019',
-      description: '15 gallon capacity garden cart',
-      price: 32.99,
-      starRating: 4.2,
-      imageUrl: 'N/A'
-    },
-    {
-      productId: 5,
-      message: 'git push --force master',
-      productName: 'Hammer',
-      productCode: 'TBX-0048',
-      releaseDate: 'May 21, 2019',
-      description: '21oz Framing Hammer',
-      price: 26.99,
-      starRating: 4.8,
-      imageUrl: 'N/A 2.0'
-    },
-    {
-      productId: 6,
-      message: 'git pull',
-      productName: 'Nail Puller',
-      productCode: 'TBX-0049',
-      releaseDate: 'May 15, 2019',
-      description: '9" Cats Paw',
-      price: 14.99,
-      starRating: 4.1,
-      imageUrl: 'N/A 2.0'
-    }
-  ];
+  filterString: string = 'cart';
+
+  get listFilter(): string {
+    return this.filterString;
+  }
+  set listFilter(value: string) {
+    this.filterString = value;
+    this.filteredProducts = this.listFilter ? this.performFilter(this.listFilter) : this.products;
+  }
+  filteredProducts: IProduct[] = [];
+  products: IProduct[] = [];
+  // Class Functions
+  constructor(private productService: ProductService) {
+    this.listFilter = '';
+  }
+
+  onRatingClicked(message: string): void {
+    this.pageTitle = 'Product List: ' + message;
+  }
+  performFilter(filterBy: string): IProduct[] {
+    filterBy = filterBy.toLocaleLowerCase();
+    return this.products.filter((product: IProduct) =>
+      product.productName.toLocaleLowerCase().indexOf(filterBy) !== -1);
+  }
   toggleImage(): void {
     this.showImage = !this.showImage;
   }
+  // on init, load this data (useful for pulling in data from Service / or DB)
   ngOnInit(): void {
-    console.log('in OnInit');
+    this.productService.getProducts().subscribe({
+      next: products => {
+        this.products = products;
+        console.log(this.products);
+        this.filteredProducts = this.products;
+        console.log(this.filteredProducts);
+       },
+      error: err => { this.errorMessage = err; }
+    });
   }
 }
