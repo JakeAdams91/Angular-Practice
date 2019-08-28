@@ -12,6 +12,7 @@ export class ProductDetailComponent implements OnInit {
   pageTitle = 'Product Detail';
   product: IProduct | undefined;
   errorMessage: '';
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private productService: ProductService) { }
