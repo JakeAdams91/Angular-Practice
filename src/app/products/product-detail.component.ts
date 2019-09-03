@@ -29,7 +29,6 @@ export class ProductDetailComponent implements OnInit {
   onBack(): void {
     this.router.navigate(['/products']);
   }
-
   getProduct(id: number) {
     this.productService.getProduct(id).subscribe({
       next: product => this.product = product,
